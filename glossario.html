@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Glossário | Safe Ent</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      --secondary-gradient: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+      --glass-bg: rgba(255, 255, 255, 0.08);
+      --glass-border: rgba(255, 255, 255, 0.2);
+      --text-primary: #ffffff;
+      --text-secondary: #dfe6e9;
+      --text-muted: #b2bec3;
+      --shadow-light: 0 8px 32px rgba(0, 0, 0, 0.1);
+      --shadow-heavy: 0 20px 60px rgba(0, 0, 0, 0.3);
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: linear-gradient(to right, #000000, #2E0854);
+      color: var(--text-primary);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* Partículas */
+    .particles {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 1;
+    }
+    .particle {
+      position: absolute;
+      width: 2px;
+      height: 2px;
+      background: rgba(255, 255, 255, 0.5);
+      border-radius: 50%;
+      animation: float 6s ease-in-out infinite;
+    }
+    @keyframes float {
+      0%, 100% { transform: translateY(0px); opacity: 1; }
+      50% { transform: translateY(-20px); opacity: 0.5; }
+    }
+
+    /* Cabeçalho */
+    .header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px 40px;
+      background: rgba(0, 0, 0, 0.8);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--glass-border);
+      z-index: 1000;
+      transition: all 0.3s ease;
+    }
+    .header.scrolled {
+      background: rgba(0, 0, 0, 0.9);
+      padding: 15px 40px;
+    }
+    .logo {
+      font-size: 1.8rem;
+      font-weight: 700;
+      background: var(--primary-gradient);
+      background-clip: text;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .logo::before {
+      content: "🛡️";
+    }
+    .nav {
+      display: flex;
+      gap: 30px;
+    }
+    .nav a {
+      color: var(--text-secondary);
+      text-decoration: none;
+      font-weight: 500;
+      padding: 8px 16px;
+      border-radius: 8px;
+      transition: 0.3s;
+    }
+    .nav a:hover, .nav a.active {
+      color: var(--text-primary);
+      background: var(--glass-bg);
+    }
+
+    /* Hero */
+    .hero {
+      text-align: center;
+      padding: 120px 20px 60px;
+      position: relative;
+      z-index: 10;
+    }
+    .hero h2 {
+      font-size: clamp(2.5rem, 5vw, 4rem);
+      font-weight: 700;
+      background: var(--primary-gradient);
+      background-clip: text;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 10px;
+    }
+    .hero p {
+      font-size: 1.1rem;
+      color: var(--text-secondary);
+    }
+
+    /* Barra de busca */
+    .search-section {
+      padding: 0 20px 40px;
+      position: relative;
+      z-index: 10;
+    }
+    .search-container {
+      max-width: 600px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      background: var(--glass-bg);
+      backdrop-filter: blur(20px);
+      border: 1px solid var(--glass-border);
+      border-radius: 25px;
+      overflow: hidden;
+    }
+    .search-container input {
+      flex: 1;
+      padding: 16px 24px;
+      background: transparent;
+      border: none;
+      color: var(--text-primary);
+      outline: none;
+    }
+    .search-container input::placeholder {
+      color: var(--text-muted);
+    }
+    .search-btn {
+      padding: 16px 20px;
+      background: var(--secondary-gradient);
+      border: none;
+      cursor: pointer;
+      color: white;
+      font-size: 1.2rem;
+      transition: 0.3s;
+    }
+    .search-btn:hover {
+      background: var(--primary-gradient);
+      transform: scale(1.05);
+    }
+
+    /* Glossário */
+    .main-content {
+      padding: 0 20px 100px;
+      position: relative;
+      z-index: 10;
+    }
+    .termo {
+      background: var(--glass-bg);
+      backdrop-filter: blur(20px);
+      border: 1px solid var(--glass-border);
+      border-radius: 20px;
+      padding: 25px;
+      max-width: 1000px;
+      margin: 0 auto 25px;
+      box-shadow: var(--shadow-light);
+      transition: 0.3s;
+    }
+    .termo:hover {
+      transform: translateY(-5px);
+      box-shadow: var(--shadow-heavy);
+    }
+    .termo h3 {
+      font-size: 1.5rem;
+      background: var(--primary-gradient);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 10px;
+    }
+    .termo p {
+      font-size: 1rem;
+      color: var(--text-secondary);
+      line-height: 1.6;
+    }
+
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .fade-in { animation: fadeInUp 0.8s ease; }
+
+    /* Footer - Safe Ent (copiado do improved_safenet.html) */
+.footer {
+  background: rgba(0, 0, 0, 0.9);
+  padding: 60px 20px 30px;
+  text-align: center;
+  border-top: 1px solid rgba(255,255,255,0.2); /* var(--glass-border) */
+  position: relative;
+  z-index: 10;
+}
+
+.footer-content {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.footer-nav {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  margin-bottom: 30px;
+  flex-wrap: wrap;
+}
+
+.footer-nav a {
+  color: #e0e6ed; /* var(--text-secondary) */
+  text-decoration: none;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  padding: 5px 10px;
+  border-radius: 5px;
+}
+
+.footer-nav a:hover {
+  color: #ffffff; /* var(--text-primary) */
+  background: rgba(255,255,255,0.08); /* var(--glass-bg) */
+}
+
+.footer-text {
+  color: #b2bec3; /* var(--text-muted) */
+  font-size: 0.9rem;
+}
+
+  </style>
+</head>
+<body>
+  <div class="particles" id="particles"></div>
+
+  <header class="header" id="header">
+    <div class="logo">SAFE NET</div>
+    <nav class="nav">
+      <a href="improved_safenet.html">Início</a>
+      <a href="improved_golpes_page.html">Golpes</a>
+      <a href="noticias_melhorada.html">Notícias</a>
+      <a class="active" href="#">Glossário</a>
+      <a href="quiz.html">Quiz</a>
+        <a href="faleconosco.html">Fale conosco</a>
+          <a href="sobre_nois_improved.html">Sobre nós</a>
+      
+    </nav>
+  </header>
+
+  <section class="hero">
+    <h2>Glossário de Termos</h2>
+    <p>Aprenda os conceitos essenciais da cibersegurança de forma simples e rápida.</p>
+  </section>
+
+  <section class="search-section">
+    <div class="search-container">
+      <input type="text" id="buscaTermo" placeholder="Buscar termo..." />
+      <button onclick="filtrarTermos()" class="search-btn">🔍</button>
+    </div>
+  </section>
+
+  <main class="main-content" id="glossario">
+    <div class="termo fade-in">
+      <h3>Phishing</h3>
+      <p>Golpe em que criminosos fingem ser empresas ou pessoas conhecidas para roubar informações, como senhas ou números de cartão.</p>
+    </div>
+
+    <div class="termo fade-in">
+      <h3>Malware</h3>
+      <p>Programa criado para danificar ou roubar dados de um dispositivo. Inclui vírus, trojans e spyware.</p>
+    </div>
+
+    <div class="termo fade-in">
+      <h3>Ransomware</h3>
+      <p>Tipo de malware que bloqueia arquivos e exige pagamento para liberá-los.</p>
+    </div>
+
+    <div class="termo fade-in">
+      <h3>Firewall</h3>
+      <p>Barreira de segurança que controla o tráfego entre redes, impedindo acessos não autorizados.</p>
+    </div>
+
+    <div class="termo fade-in">
+      <h3>VPN</h3>
+      <p>Rede privada que protege sua conexão e oculta sua localização, aumentando a privacidade online.</p>
+    </div>
+
+    <div class="termo fade-in">
+      <h3>Autenticação de Dois Fatores</h3>
+      <p>Etapa extra de segurança que combina senha + confirmação por SMS, app ou e-mail.</p>
+    </div>
+
+    <div class="termo fade-in">
+      <h3>Engenharia Social</h3>
+      <p>Técnica usada para manipular pessoas e fazê-las entregar informações confidenciais.</p>
+    </div>
+
+    <div class="termo fade-in">
+      <h3>Spyware</h3>
+      <p>Software espião que monitora a atividade do usuário sem permissão.</p>
+    </div>
+
+    <div class="termo fade-in">
+      <h3>Criptografia</h3>
+      <p>Processo que transforma dados em códigos, protegendo informações contra acesso indevido.</p>
+    </div>
+
+    <div class="termo fade-in">
+      <h3>DDoS</h3>
+      <p>Ataque que sobrecarrega servidores com múltiplas conexões simultâneas, derrubando sites e serviços.</p>
+    </div>
+
+   
+<div class="termo fade-in">
+  <h3>Backdoor</h3>
+  <p>Acesso oculto deixado em um sistema (pelo próprio desenvolvedor ou por malware) que permite logins ou comandos sem autenticação normal — usado para invasões futuras.</p>
+</div>
+
+<div class="termo fade-in">
+  <h3>Keylogger</h3>
+  <p>Programa que registra todas as teclas digitadas no computador ou celular, capturando senhas, mensagens e outras informações sensíveis sem o conhecimento do usuário.</p>
+</div>
+
+<div class="termo fade-in">
+  <h3>Brute Force (Força Bruta)</h3>
+  <p>Método de ataque que tenta sistematicamente muitas combinações de senhas até encontrar a correta. Senhas curtas ou óbvias são vulneráveis a esse tipo de ataque.</p>
+</div>
+
+<div class="termo fade-in">
+  <h3>SQL Injection</h3>
+  <p>Ataque que insere comandos SQL maliciosos em campos de formulários ou URLs para manipular o banco de dados do site — pode permitir roubo ou alteração de dados.</p>
+</div>
+
+<div class="termo fade-in">
+  <h3>Rootkit</h3>
+  <p>Conjunto de ferramentas usadas por invasores para esconder sua presença e manter controle total sobre um sistema, dificultando a detecção por antivírus e administradores.</p>
+</div>
+
+<div class="termo fade-in">
+  <h3>Exploit</h3>
+  <p>Código ou técnica que explora uma vulnerabilidade específica em um software ou sistema para executar ações não autorizadas (como obter acesso ou executar malware).</p>
+</div>
+
+<div class="termo fade-in">
+  <h3>Patch</h3>
+  <p>Atualização fornecida pelo desenvolvedor para corrigir falhas, bugs ou vulnerabilidades de segurança em um software. Manter sistemas atualizados reduz riscos.</p>
+</div>
+
+<div class="termo fade-in">
+  <h3>Hash</h3>
+  <p>Valor fixo gerado a partir de dados (por exemplo, uma senha) usando uma função hash. Usado para verificar integridade e armazenar senhas de forma segura (sem salvar o texto original).</p>
+</div>
+
+<div class="termo fade-in">
+  <h3>Zero-Day</h3>
+  <p>Vulnerabilidade recém-descoberta e ainda sem correção oficial — chamada "zero-day" porque os defensores têm zero dias para reagir antes que criminosos possam explorá-la.</p>
+</div>
+
+<div class="termo fade-in">
+  <h3>White Hat / Black Hat / Gray Hat</h3>
+  <p>Classificação de hackers: <strong>White Hat</strong> (ético — procura e corrige falhas), <strong>Black Hat</strong> (mal-intencionado — explora vulnerabilidades) e <strong>Gray Hat</strong> (entre os dois — às vezes viola regras, mas sem intenção criminosa direta).</p>
+</div>
+
+
+  </main>
+
+  <script>
+    // partículas
+    function createParticles() {
+      const container = document.getElementById('particles');
+      for (let i = 0; i < 50; i++) {
+        const p = document.createElement('div');
+        p.className = 'particle';
+        p.style.left = Math.random() * 100 + '%';
+        p.style.top = Math.random() * 100 + '%';
+        p.style.animationDelay = Math.random() * 6 + 's';
+        p.style.animationDuration = (Math.random() * 4 + 4) + 's';
+        container.appendChild(p);
+      }
+    }
+
+    // header scroll
+    window.addEventListener('scroll', () => {
+      const header = document.getElementById('header');
+      header.classList.toggle('scrolled', window.scrollY > 50);
+    });
+
+    // busca
+    function filtrarTermos() {
+      const input = document.getElementById("buscaTermo");
+      const filtro = input.value.toLowerCase();
+      const termos = document.querySelectorAll(".termo");
+
+      termos.forEach((termo) => {
+        const texto = termo.innerText.toLowerCase();
+        termo.style.display = texto.includes(filtro) ? "block" : "none";
+      });
+    }
+
+    createParticles();
+  </script>
+
+ <footer class="footer">
+  <div class="footer-content">
+    <nav class="footer-nav">
+      <a href="improved_safenet.html">Início</a>
+      <a href="improved_golpes_page.html">Golpes</a>
+      <a href="noticias_melhorada.html">Notícias</a>
+      <a href="glossario.html">Glossário</a>
+      <a href="quiz.html">Quiz</a>
+      <a href="faleconosco.html">Fale conosco</a>
+      <a href="sobre_nois_improved.html">Sobre nós</a>
+     
+    </nav>
+    <p class="footer-text">&copy; 2025 Safe Net - Todos os direitos reservados. Protegendo você no mundo digital.</p>
+  </div>
+</footer>
+
+
+</body>
+</html>

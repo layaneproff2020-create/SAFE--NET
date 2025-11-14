@@ -1,0 +1,735 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Golpes | Safe Net</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+
+
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      --secondary-gradient: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+      --danger-gradient: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%);
+      --dark-gradient: linear-gradient(135deg, #2c3e50 0%, #3498db 100%);
+      --glass-bg: rgba(255, 255, 255, 0.1);
+      --glass-border: rgba(255, 255, 255, 0.2);
+      --text-primary: #ffffff;
+      --text-secondary: #e0e6ed;
+      --text-muted: #b2bec3;
+      --shadow-light: 0 8px 32px rgba(0, 0, 0, 0.1);
+      --shadow-heavy: 0 20px 60px rgba(0, 0, 0, 0.3);
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: linear-gradient(to right, #000000, #2E0854);
+      color: var(--text-primary);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* Animated particles background */
+    .particles {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .particle {
+      position: absolute;
+      width: 2px;
+      height: 2px;
+      background: rgba(255, 255, 255, 0.5);
+      border-radius: 50%;
+      animation: float 6s ease-in-out infinite;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0px) rotate(0deg); opacity: 1; }
+      50% { transform: translateY(-20px) rotate(180deg); opacity: 0.5; }
+    }
+
+    /* Header */
+    .header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px 40px;
+      background: rgba(0, 0, 0, 0.8);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--glass-border);
+      z-index: 1000;
+      transition: all 0.3s ease;
+    }
+
+    .header.scrolled {
+      padding: 15px 40px;
+      background: rgba(0, 0, 0, 0.9);
+    }
+
+    .logo {
+      font-size: 1.8rem;
+      font-weight: 700;
+      background: var(--primary-gradient);
+      background-clip: text;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .logo::before {
+      content: '🛡️';
+      font-size: 1.5rem;
+    }
+
+    .nav {
+      display: flex;
+      gap: 30px;
+    }
+
+    .nav a {
+      color: var(--text-secondary);
+      text-decoration: none;
+      font-weight: 500;
+      position: relative;
+      transition: all 0.3s ease;
+      padding: 8px 16px;
+      border-radius: 8px;
+    }
+
+    .nav a:hover {
+      color: var(--text-primary);
+      background: var(--glass-bg);
+      transform: translateY(-2px);
+    }
+
+    .nav a.active {
+      color: var(--text-primary);
+      background: var(--glass-bg);
+    }
+
+    .nav a::after {
+      content: '';
+      position: absolute;
+      bottom: -4px;
+      left: 50%;
+      width: 0;
+      height: 2px;
+      background: var(--primary-gradient);
+      transition: all 0.3s ease;
+      transform: translateX(-50%);
+    }
+
+    .nav a:hover::after,
+    .nav a.active::after {
+      width: 100%;
+    }
+
+    /* Hero Section */
+    .hero {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 60vh;
+      padding: 120px 20px 80px;
+      text-align: center;
+      position: relative;
+      z-index: 10;
+    }
+
+    .hero h2 {
+      font-size: clamp(2.5rem, 5vw, 4rem);
+      font-weight: 700;
+      margin-bottom: 20px;
+      background: linear-gradient(135deg, #ffffff 0%, #667eea 100%);
+      background-clip: text;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      line-height: 1.2;
+    }
+
+    /* Search Bar */
+    .search-section {
+      padding: 0 20px 40px;
+      position: relative;
+      z-index: 10;
+    }
+
+    .search-container {
+      max-width: 600px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      background: var(--glass-bg);
+      backdrop-filter: blur(20px);
+      border: 1px solid var(--glass-border);
+      border-radius: 25px;
+      overflow: hidden;
+      box-shadow: var(--shadow-light);
+    }
+
+    .search-container input {
+      flex: 1;
+      padding: 16px 24px;
+      font-size: 1rem;
+      border: none;
+      background: transparent;
+      color: var(--text-primary);
+      outline: none;
+    }
+
+    .search-container input::placeholder {
+      color: var(--text-muted);
+    }
+
+    .search-btn {
+      padding: 16px 20px;
+      background: var(--secondary-gradient);
+      border: none;
+      color: white;
+      font-size: 1.2rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .search-btn:hover {
+      background: var(--primary-gradient);
+      transform: scale(1.05);
+    }
+
+    /* Main Content */
+    .main-content {
+      padding: 0 20px 80px;
+      position: relative;
+      z-index: 10;
+    }
+
+    /* Scam Blocks */
+    .scam-block {
+      display: flex;
+      background: var(--glass-bg);
+      backdrop-filter: blur(20px);
+      border: 1px solid var(--glass-border);
+      border-radius: 20px;
+      margin-bottom: 30px;
+      padding: 30px;
+      gap: 30px;
+      align-items: flex-start;
+      flex-wrap: wrap;
+      max-width: 1200px;
+      margin-left: auto;
+      margin-right: auto;
+      margin-bottom: 30px;
+      transition: all 0.3s ease;
+      box-shadow: var(--shadow-light);
+    }
+
+    .scam-block:hover {
+      transform: translateY(-5px);
+      box-shadow: var(--shadow-heavy);
+      border-color: rgba(255, 255, 255, 0.3);
+    }
+
+    .scam-icon {
+      width: 80px;
+      height: 80px;
+      border-radius: 20px;
+      background: var(--primary-gradient);
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2.5rem;
+      box-shadow: var(--shadow-light);
+    }
+
+    .scam-text {
+      flex: 1 1 400px;
+      min-width: 300px;
+    }
+
+    .scam-text h3 {
+      font-size: 1.5rem;
+      font-weight: 600;
+      margin-bottom: 15px;
+      color: var(--text-primary);
+    }
+
+    .scam-text p {
+      font-size: 1rem;
+      line-height: 1.6;
+      color: var(--text-secondary);
+      margin-bottom: 15px;
+    }
+
+    .scam-text p strong {
+      color: var(--text-primary);
+    }
+
+    .scam-video {
+      flex: 1 1 400px;
+      min-width: 300px;
+    }
+
+    .scam-video iframe {
+      width: 100%;
+      height: 250px;
+      border-radius: 15px;
+      border: none;
+      box-shadow: var(--shadow-light);
+    }
+
+    /* Outros Videos Section */
+    .outros-section {
+      text-align: center;
+      margin-top: 60px;
+      padding: 60px 20px;
+      background: var(--glass-bg);
+      backdrop-filter: blur(20px);
+      border: 1px solid var(--glass-border);
+      border-radius: 20px;
+      max-width: 1200px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .outros-section h3 {
+      font-size: 2rem;
+      font-weight: 600;
+      margin-bottom: 40px;
+      background: var(--primary-gradient);
+      background-clip: text;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .outros-videos {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+      gap: 30px;
+      margin-top: 30px;
+    }
+
+    .outros-videos iframe {
+      width: 100%;
+      height: 250px;
+      border-radius: 15px;
+      border: none;
+      box-shadow: var(--shadow-light);
+    }
+
+    /* Animations */
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .fade-in {
+      animation: fadeInUp 0.8s ease-out;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .header {
+        padding: 15px 20px;
+      }
+
+      .nav {
+        gap: 20px;
+      }
+
+      .hero {
+        padding: 100px 20px 60px;
+      }
+
+      .scam-block {
+        flex-direction: column;
+        gap: 20px;
+        padding: 20px;
+      }
+
+      .scam-text,
+      .scam-video {
+        min-width: auto;
+      }
+
+      .outros-videos {
+        grid-template-columns: 1fr;
+      }
+
+      .outros-videos iframe {
+        height: 200px;
+      }
+    }
+
+    /* Footer - Safe Ent (copiado do improved_safenet.html) */
+.footer {
+  background: rgba(0, 0, 0, 0.9);
+  padding: 60px 20px 30px;
+  text-align: center;
+  border-top: 1px solid rgba(255,255,255,0.2); /* var(--glass-border) */
+  position: relative;
+  z-index: 10;
+}
+
+.footer-content {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.footer-nav {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  margin-bottom: 30px;
+  flex-wrap: wrap;
+}
+
+.footer-nav a {
+  color: #e0e6ed; /* var(--text-secondary) */
+  text-decoration: none;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  padding: 5px 10px;
+  border-radius: 5px;
+}
+
+.footer-nav a:hover {
+  color: #ffffff; /* var(--text-primary) */
+  background: rgba(255,255,255,0.08); /* var(--glass-bg) */
+}
+
+.footer-text {
+  color: #b2bec3; /* var(--text-muted) */
+  font-size: 0.9rem;
+}
+
+    
+  </style>
+
+</head>
+<body>
+  <!-- Animated background particles -->
+  <div class="particles" id="particles"></div>
+
+  <header class="header" id="header">
+    <div class="logo">SAFE NET</div>
+    <nav class="nav">
+      <a href="improved_safenet.html">Início</a>
+      <a href="improved_golpes_page.html" class="active">Golpes</a>
+      <a href="noticias_melhorada.html">Notícias</a>
+      <a href="glossario.html">Glossário</a>
+      <a href="quiz.html">Quiz</a>
+      <a href="faleconosco.html">Fale conosco</a>
+      <a href="sobre_nois_improved.html">Sobre nós</a>
+    </nav>
+  </header>
+
+  <section class="hero">
+    <h2>Descubra como se prevenir</h2>
+  </section>
+
+  <section class="search-section">
+    <div class="search-container">
+      <input type="text" id="buscaGolpe" placeholder="Buscar golpes..." />
+      <button onclick="filtrarGolpes()" class="search-btn" aria-label="Buscar">🔍</button>
+    </div>
+  </section>
+
+  <main class="main-content">
+    <!-- Blocos de golpes -->
+    <div class="scam-block">
+      <img src="zapzap.png" alt="Ícone WhatsApp" width="70" height="70">
+      <div class="scam-text">
+        <h3>Golpe do WhatsApp</h3>
+        <p>Não clique em links ou downloads: Evite clicar em links ou baixar arquivos enviados por desconhecidos. Verifique a autenticidade: Confirme se a mensagem é de um contato conhecido ou de uma fonte legítima. Desconfie de promessas tentadoras: Ofertas irrealistas ou prêmios inexistentes são comuns em golpes. Não forneça informações pessoais: Nunca compartilhe dados confidenciais, como senhas, números de cartão ou documentos.
+Use autenticação de dois fatores: Ative a autenticação de dois fatores em suas contas para adicionar uma camada de segurança.</p>
+        <p><strong>O vídeo a seguir lhe ajudará a entender mais sobre o golpe:</strong></p>
+      </div>
+      <div class="scam-video">
+        
+      <iframe width="853" height="480" src="https://www.youtube.com/embed/DZXmpbr13a0" title="Golpes do WhatsApp: Como os bandidos sabem tanto sobre você" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+      </div>
+    </div>
+
+    <div class="scam-block">
+    <img src="banco.png" alt="Ícone Banco" width="70" height="70">
+      <div class="scam-text">
+        <h3>Golpe Bancário</h3>
+        <p>Verifique a identidade: Confirme se o contato é legítimo, verificando o nome e cargo da atendente. Não forneça informações confidenciais: Nunca compartilhe senhas, números de cartão, código de segurança ou dados pessoais. Desconfie de pedidos urgentes: Golpistas criam senso de urgência para induzir erros. Verifique o número de telefone: Confirme se o número é oficial do banco. Não clique em links suspeitos: Evite links enviados por e-mail ou mensagem.</p>
+        <p><strong>O vídeo a seguir lhe ajudará a entender mais sobre o golpe:</strong></p>
+      </div>
+      <div class="scam-video">
+        <iframe src="https://www.youtube.com/embed/qxWvDcxVmUY" allowfullscreen></iframe>
+      </div>
+    </div>
+
+    <div class="scam-block">
+       <img src="telefone.png" alt="Ícone telefone" width="70" height="70">
+      <div class="scam-text">
+        <h3>Golpe de Ligações</h3>
+        <p>Desconfie de ofertas ou cobranças inesperadas: Se receber uma ligação de alguém oferecendo algo muito vantajoso ou exigindo pagamento imediato, desconfie. Golpistas frequentemente criam urgência para manipular a vítima.
+Não forneça informações pessoais: Evite compartilhar dados como números de documentos (CPF, RG), senhas, informações bancárias ou dados pessoais por telefone. Empresas sérias nunca pedem essas informações de forma abrupta.
+Verifique a identidade do chamador: Se a ligação for de uma empresa, peça para retornar o contato usando o número oficial disponível no site ou em documentos oficiais, e não o número fornecido pelo interlocutor.</p>
+        <p><strong>O vídeo a seguir lhe ajudará a entender mais sobre o golpe:</strong></p>
+      </div>
+      <div class="scam-video">
+        <iframe src="https://www.youtube.com/embed/ruLegh2dm_I" allowfullscreen></iframe>
+      </div>
+    </div>
+
+    <div class="scam-block">
+         <img src="sms.png" alt="Ícone sms" width="70" height="70">
+      <div class="scam-text">
+        <h3>Golpe via SMS</h3>
+        <p>Não responda: Ignore mensagens suspeitas.
+Não clique em links: Evite links ou códigos enviados por desconhecidos.
+Não forneça informações pessoais: Nunca compartilhe dados confidenciais.
+Use autenticação de dois fatores: Ative em suas contas. Mantenha o celular atualizado: Garanta que o sistema operacional e aplicativos estejam atualizados.</p>
+        <p><strong>O vídeo a seguir lhe ajudará a entender mais sobre o golpe:</strong></p>
+      </div>
+      <div class="scam-video">
+        <iframe src="https://www.youtube.com/embed/Nob-GFEFoQA" allowfullscreen></iframe>
+      </div>
+    </div>
+
+    <div class="scam-block">
+    <img src="suport.png" alt="Ícone falso suporte" width="70" height="70">
+      <div class="scam-text">
+        <h3>Golpe do Suporte Técnico</h3>
+        <p>Golpistas fingem ser de empresas conhecidas, como Microsoft ou operadoras, e dizem que seu dispositivo está com problemas graves. Eles pedem para instalar programas que permitem acesso remoto, alegando que vão "ajudar". Com isso, conseguem controlar seu computador ou celular, podendo roubar dados, instalar vírus ou fazer transferências. Para se proteger, nunca permita acesso remoto a estranhos e só entre em contato com o suporte pelos canais oficiais.</p>
+        <p><strong>O vídeo a seguir lhe ajudará a entender mais sobre o golpe:</strong></p>
+      </div>
+      <div class="scam-video">
+        <iframe src="https://www.youtube.com/embed/VRc9n_e4tD8" allowfullscreen></iframe>
+      </div>
+    </div>
+
+    <div class="scam-block">
+      <img src="sequestro.png" alt="Ícone sequestro" width="70" height="70">
+      <div class="scam-text">
+        <h3>Golpe do Falso Sequestro</h3>
+        <p>Você recebe uma ligação em que alguém afirma ter sequestrado um parente. Muitas vezes há gritos ou choros ao fundo para causar pânico. Os criminosos pressionam para que você pague um resgate e não desligue. É uma farsa emocional. Mantenha a calma, tente contato direto com a pessoa supostamente sequestrada e nunca forneça dados pessoais durante a chamada. Sempre denuncie à polícia.</p>
+        <p><strong>O vídeo a seguir lhe ajudará a entender mais sobre o golpe:</strong></p>
+      </div>
+      <div class="scam-video">
+        <iframe src="https://www.youtube.com/embed/7JgQWDz3S6I" allowfullscreen></iframe>
+      </div>
+    </div>
+
+    <div class="scam-block">
+       <img src="boleto.png" alt="Ícone boleto" width="70" height="70">
+      <div class="scam-text">
+        <h3>Golpe do Boleto Falso</h3>
+        <p>Golpistas criam boletos bancários com aparência legítima, mas com dados de pagamento alterados. Eles podem ser enviados por e-mail, WhatsApp ou estar em sites falsos. Quando a vítima paga, o dinheiro vai para o criminoso, e a dívida real continua. Verifique sempre o nome do beneficiário antes de pagar e gere boletos apenas pelos sites ou apps oficiais das empresas.</p>
+        <p><strong>O vídeo a seguir lhe ajudará a entender mais sobre o golpe:</strong></p>
+      </div>
+      <div class="scam-video">
+        <iframe src="https://www.youtube.com/embed/Tbqe1JN0Rog" allowfullscreen></iframe>
+      </div>
+    </div>
+
+    <div class="scam-block">
+       <img src="instagram (2).png" alt="Ícone instagram" width="70" height="70">
+      <div class="scam-text">
+        <h3>Golpe no Instagram</h3>
+        <p>Criminosos invadem perfis do Instagram e usam essas contas para aplicar golpes, geralmente pedindo dinheiro ou enviando links maliciosos para os seguidores da vítima. Para evitar, é essencial ativar a autenticação em dois fatores, não compartilhar códigos recebidos por SMS com ninguém e usar senhas fortes e exclusivas para cada rede social.</p>
+        <p><strong>O vídeo a seguir lhe ajudará a entender mais sobre o golpe:</strong></p>
+      </div>
+      <div class="scam-video">
+        <iframe src="https://www.youtube.com/embed/rxNWCIl-NwQ" allowfullscreen></iframe>
+      </div>
+    </div>
+
+    <div class="scam-block">
+      <img src="investimento.png" alt="Ícone investimento" width="70" height="70">
+      <div class="scam-text">
+        <h3>Golpe de Investimento Falso</h3>
+        <p>São ofertas de investimentos com retorno rápido e alto lucro, normalmente envolvendo criptomoedas ou ações. Os golpistas usam promessas exageradas para convencer a vítima a investir e continuar aplicando mais dinheiro. No fim, a vítima perde tudo. Desconfie de ganhos fáceis, pesquise a empresa envolvida e nunca invista sem entender bem onde está colocando seu dinheiro.</p>
+        <p><strong>O vídeo a seguir lhe ajudará a entender mais sobre o golpe:</strong></p>
+      </div>
+      <div class="scam-video">
+        <iframe src="https://www.youtube.com/embed/srIYGAJJ-bs" allowfullscreen></iframe>
+      </div>
+    </div>
+
+    <div class="scam-block">
+            <img src="qrcode.png" alt="Ícone QR code" width="70" height="70">
+      <div class="scam-text">
+        <h3>Golpe do QR Code</h3>
+        <p>Criminosos colocam QR Codes adulterados em cima de códigos legítimos ou os enviam por mensagem. Ao escanear, você pode ser direcionado a páginas falsas que roubam seus dados ou instalam vírus. Evite escanear códigos em locais duvidosos, sempre confira o endereço para onde o código te leva e prefira acessar links diretamente, sem depender do QR.</p>
+        <p><strong>O vídeo a seguir lhe ajudará a entender mais sobre o golpe:</strong></p>
+      </div>
+      <div class="scam-video">
+        <iframe src="https://www.youtube.com/embed/4_IfTDu0_48" allowfullscreen></iframe>
+      </div>
+    </div>
+
+    <div class="scam-block">
+     <img src="seisdigitos-removebg-preview.png" alt="Ícone 6 dígitos" width="70" height="70">
+      <div class="scam-text">
+        <h3>Golpe dos 6 Dígitos</h3>
+        <p>Você recebe um código de verificação por SMS, geralmente do WhatsApp, e logo alguém entra em contato fingindo ser da empresa, pedindo o código. Se você informar, sua conta pode ser invadida e usada para enganar seus contatos. Nunca compartilhe códigos recebidos por mensagem e ative a verificação em duas etapas para maior segurança.</p>
+        <p><strong>O vídeo a seguir lhe ajudará a entender mais sobre o golpe:</strong></p>
+      </div>
+      <div class="scam-video">
+        <iframe src="https://www.youtube.com/embed/oWEyif6kwWM" allowfullscreen></iframe>
+      </div>
+    </div>
+
+    <!-- Outros vídeos -->
+    <section class="outros-section">
+      <h3>Outros tipos de golpes</h3>
+      <div class="outros-videos">
+        <iframe src="https://www.youtube.com/embed/xBT_WiBPBGI?si=6PN-Hpz5CZrOJcXp" allowfullscreen></iframe>
+        <iframe src="https://www.youtube.com/embed/JEP9pmN2GEM?si=dbt1Trr5-a3u_Bkj" allowfullscreen></iframe>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    // Animated particles
+    function createParticles() {
+      const particlesContainer = document.getElementById('particles');
+      const particleCount = 50;
+      
+      for (let i = 0; i < particleCount; i++) {
+        const particle = document.createElement('div');
+        particle.className = 'particle';
+        particle.style.left = Math.random() * 100 + '%';
+        particle.style.top = Math.random() * 100 + '%';
+        particle.style.animationDelay = Math.random() * 6 + 's';
+        particle.style.animationDuration = (Math.random() * 4 + 4) + 's';
+        particlesContainer.appendChild(particle);
+      }
+    }
+
+    // Header scroll effect
+    window.addEventListener('scroll', () => {
+      const header = document.getElementById('header');
+      if (window.scrollY > 50) {
+        header.classList.add('scrolled');
+      } else {
+        header.classList.remove('scrolled');
+      }
+    });
+
+    // Smooth scrolling for navigation links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+          const headerHeight = document.querySelector('.header').offsetHeight;
+          const targetPosition = target.offsetTop - headerHeight;
+          window.scrollTo({
+            top: targetPosition,
+            behavior: 'smooth'
+          });
+        }
+      });
+    });
+
+    // Search functionality
+    function filtrarGolpes() {
+      const input = document.getElementById("buscaGolpe");
+      const filtro = input.value.toLowerCase();
+      const blocos = document.querySelectorAll(".scam-block");
+
+      blocos.forEach((bloco) => {
+        const texto = bloco.innerText.toLowerCase();
+        if (texto.includes(filtro)) {
+          bloco.style.display = "flex";
+          bloco.style.animation = "fadeInUp 0.5s ease-out";
+        } else {
+          bloco.style.display = "none";
+        }
+      });
+    }
+
+    // Search on Enter key
+    document.getElementById('buscaGolpe').addEventListener('keypress', function(e) {
+      if (e.key === 'Enter') {
+        filtrarGolpes();
+      }
+    });
+
+    // Intersection Observer for fade-in animations
+    const observerOptions = {
+      threshold: 0.1,
+      rootMargin: '0px 0px -50px 0px'
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('fade-in');
+        }
+      });
+    }, observerOptions);
+
+    // Observe all scam blocks
+    document.querySelectorAll('.scam-block').forEach(block => {
+      observer.observe(block);
+    });
+
+    // Initialize particles
+    createParticles();
+
+    // Add hover effects to scam blocks
+    document.querySelectorAll('.scam-block').forEach(block => {
+      block.addEventListener('mouseenter', () => {
+        block.style.transform = 'translateY(-10px) scale(1.02)';
+      });
+      
+      block.addEventListener('mouseleave', () => {
+        block.style.transform = 'translateY(0) scale(1)';
+      });
+    });
+  </script>
+
+  <footer class="footer">
+  <div class="footer-content">
+    <nav class="footer-nav">
+      <a href="improved_safenet.html">Início</a>
+      <a href="improved_golpes_page.html">Golpes</a>
+      <a href="noticias_melhorada.html">Notícias</a>
+      <a href="glossario.html">Glossário</a>
+      <a href="quiz.html">Quiz</a>
+      <a href="faleconosco.html">Fale conosco</a>
+      <a href="sobre_nois_improved.html">Sobre nós</a>
+     
+    </nav>
+    <p class="footer-text">&copy; 2025 Safe Net - Todos os direitos reservados. Protegendo você no mundo digital.</p>
+  </div>
+</footer>
+
+</body>
+</html>

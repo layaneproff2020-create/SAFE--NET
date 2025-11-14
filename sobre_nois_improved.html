@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sobre Nós | Safe Net</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- CSS embutido -->
+  <style>
+    :root {
+      --roxo-claro: #9c27b0;
+      --roxo-escuro: #4a0072;
+      --texto: #ffffff;
+      --glass-bg: rgba(255, 255, 255, 0.1);
+      --glass-border: rgba(255, 255, 255, 0.2);
+      --text-primary: #ffffff;
+      --text-secondary: #e0e6ed;
+      --text-muted: #b2bec3;
+      --shadow-light: 0 8px 32px rgba(0, 0, 0, 0.1);
+      --shadow-heavy: 0 20px 60px rgba(0, 0, 0, 0.3);
+    }
+
+    /* Reset */
+    *,
+    *::before,
+    *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      min-height: 100vh;
+      font-family: 'Inter', sans-serif;
+      background: linear-gradient(to right, #000000, #2E0854);
+      color: var(--texto);
+      padding-top: 80px;
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    /* Animated particles background */
+    .particles {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .particle {
+      position: absolute;
+      width: 2px;
+      height: 2px;
+      background: rgba(255, 255, 255, 0.5);
+      border-radius: 50%;
+      animation: float 6s ease-in-out infinite;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0px) rotate(0deg); opacity: 1; }
+      50% { transform: translateY(-20px) rotate(180deg); opacity: 0.5; }
+    }
+
+    /* ===== HEADER ===== */
+    .header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px 40px;
+      background: rgba(0, 0, 0, 0.8);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--glass-border);
+      z-index: 1000;
+      transition: all 0.3s ease;
+    }
+
+    .header.scrolled {
+      padding: 15px 40px;
+      background: rgba(0, 0, 0, 0.9);
+    }
+
+    .logo {
+      font-size: 1.8rem;
+      font-weight: 700;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      background-clip: text;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .logo::before {
+      content: '🛡️';
+      font-size: 1.5rem;
+    }
+
+    .logo img {
+      width: 120px;
+      height: 50px;
+    }
+
+    /* ===== NAV ===== */
+    .nav {
+      display: flex;
+      gap: 30px;
+    }
+
+    .nav a {
+      color: var(--text-secondary);
+      text-decoration: none;
+      font-weight: 500;
+      position: relative;
+      transition: all 0.3s ease;
+      padding: 8px 16px;
+      border-radius: 8px;
+    }
+
+    .nav a:hover {
+      color: var(--text-primary);
+      background: var(--glass-bg);
+      transform: translateY(-2px);
+    }
+
+    .nav a::after {
+      content: '';
+      position: absolute;
+      bottom: -4px;
+      left: 50%;
+      width: 0;
+      height: 2px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      transition: all 0.3s ease;
+      transform: translateX(-50%);
+    }
+
+    .nav a:hover::after {
+      width: 100%;
+    }
+
+    /* responsivo opcional */
+    @media (max-width: 768px) {
+      .header {
+        padding: 15px 20px;
+      }
+      
+      .nav {
+        gap: 20px;
+      }
+      
+      .nav a {
+        padding: 6px 12px;
+        font-size: 0.9rem;
+      }
+    }
+
+    @media (max-width: 540px) {
+      .nav {
+        flex-direction: column;
+        gap: 15px;
+        text-align: right;
+      }
+    }
+
+    /* Glow roxo no fundo */
+    body::before,
+    body::after {
+      content: "";
+      position: fixed;
+      width: 60vmax;
+      height: 60vmax;
+      background: radial-gradient(
+        circle at center,
+        var(--roxo-claro) 0%,
+        var(--roxo-escuro) 60%,
+        transparent 70%
+      );
+      filter: blur(120px);
+      opacity: 0.35;
+      animation: mover 20s ease-in-out infinite alternate;
+      z-index: 0;
+    }
+    body::before { top: -20%; left: -30%; }
+    body::after  { bottom: -25%; right: -25%; animation-delay: 10s; }
+
+    @keyframes mover {
+      to { transform: translateX(60px) translateY(40px) rotate(45deg); }
+    }
+
+    /* Caixa principal em vidro fosco */
+    main {
+      width: 100%;
+      max-width: 1300px;
+      margin: 0 auto;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.07);
+      backdrop-filter: blur(4px);
+      border-radius: 20px;
+      padding: clamp(2rem, 4vw, 4rem);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 2.5rem;
+      z-index: 10;
+      position: relative;
+      margin-top: clamp(2rem, 5vw, 4rem);
+      margin-bottom: clamp(2rem, 5vw, 4rem);
+      margin-left: clamp(1rem, 5vw, 4rem);
+      margin-right: clamp(1rem, 5vw, 4rem);
+    }
+
+    /* Cabeçalho */
+    h1 {
+      font-size: clamp(2rem, 5vw, 3.5rem);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      background: linear-gradient(90deg, var(--roxo-claro), var(--roxo-escuro));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      text-align: center;
+      animation: fadeInUp 1s ease-out;
+    }
+
+    .lead {
+      font-size: clamp(1rem, 2.5vw, 1.25rem);
+      line-height: 1.6;
+      max-width: 70ch;
+      text-align: center;
+      opacity: 0.9;
+      animation: fadeInUp 1s ease-out 0.2s both;
+    }
+
+    /* ======= LISTA DE PERFIS ======= */
+    .team-list {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+      animation: fadeInUp 1s ease-out 0.4s both;
+    }
+
+    .profile {
+      display: flex;
+      align-items: center;
+      gap: 2rem;
+      flex-wrap: wrap;
+      padding: 1.5rem;
+      background: var(--glass-bg);
+      border: 1px solid var(--glass-border);
+      border-radius: 20px;
+      transition: all 0.3s ease;
+      backdrop-filter: blur(20px);
+    }
+
+    .profile:hover {
+      transform: translateY(-5px);
+      box-shadow: var(--shadow-light);
+      border-color: rgba(255, 255, 255, 0.3);
+    }
+
+    /* ----- CARD ----- */
+    .card {
+      flex: 0 0 180px;
+      aspect-ratio: 3/4;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 15px;
+      overflow: hidden;
+      position: relative;
+      transition: transform 0.3s, box-shadow 0.3s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* Efeito "voltar para a esquerda & levantar" */
+    .card:hover {
+      transform: rotate(-5deg) translateY(-8px);
+      box-shadow: 0 12px 28px rgba(0, 0, 0, 0.45);
+    }
+
+    .card img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: filter 0.3s;
+    }
+    .card:hover img { filter: none; }
+
+    /* ----- INFORMAÇÕES AO LADO ----- */
+    .info {
+      flex: 1;
+      min-width: 240px;
+      display: flex;
+      flex-direction: column;
+      gap: .5rem;
+    }
+
+    .info h3 {
+      font-size: clamp(1.125rem, 2.8vw, 1.4rem);
+      background: linear-gradient(90deg, var(--roxo-claro), var(--roxo-escuro));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      font-weight: 600;
+    }
+    .info p {
+      font-size: clamp(.95rem, 2.4vw, 1.1rem);
+      line-height: 1.5;
+      opacity: 0.88;
+      color: var(--text-secondary);
+    }
+
+    /* Animations */
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* ======= RESPONSIVIDADE ======= */
+    @media (max-width: 768px) {
+      .profile {
+        flex-direction: column;
+        text-align: center;
+      }
+      .card {
+        flex: 0 0 60%;
+        max-width: 260px;
+      }
+      .info { min-width: unset; }
+    }
+
+    @media (max-width: 480px) {
+      .card { flex: 0 0 80%; }
+      
+      main {
+        margin-left: 1rem;
+        margin-right: 1rem;
+      }
+    }
+
+/* Footer - Safe Ent (copiado do improved_safenet.html) */
+.footer {
+  background: rgba(0, 0, 0, 0.9);
+  padding: 60px 20px 30px;
+  text-align: center;
+  border-top: 1px solid rgba(255,255,255,0.2); /* var(--glass-border) */
+  position: relative;
+  z-index: 10;
+}
+
+.footer-content {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.footer-nav {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  margin-bottom: 30px;
+  flex-wrap: wrap;
+}
+
+.footer-nav a {
+  color: #e0e6ed; /* var(--text-secondary) */
+  text-decoration: none;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  padding: 5px 10px;
+  border-radius: 5px;
+}
+
+.footer-nav a:hover {
+  color: #ffffff; /* var(--text-primary) */
+  background: rgba(255,255,255,0.08); /* var(--glass-bg) */
+}
+
+.footer-text {
+  color: #b2bec3; /* var(--text-muted) */
+  font-size: 0.9rem;
+}
+
+/* Footer - Safe Ent (copiado do improved_safenet.html) */
+.footer {
+  background: rgba(0, 0, 0, 0.9);
+  padding: 60px 20px 30px;
+  text-align: center;
+  border-top: 1px solid rgba(255,255,255,0.2); /* var(--glass-border) */
+  position: relative;
+  z-index: 10;
+}
+
+.footer-content {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.footer-nav {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  margin-bottom: 30px;
+  flex-wrap: wrap;
+}
+
+.footer-nav a {
+  color: #e0e6ed; /* var(--text-secondary) */
+  text-decoration: none;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  padding: 5px 10px;
+  border-radius: 5px;
+}
+
+.footer-nav a:hover {
+  color: #ffffff; /* var(--text-primary) */
+  background: rgba(255,255,255,0.08); /* var(--glass-bg) */
+}
+
+.footer-text {
+  color: #b2bec3; /* var(--text-muted) */
+  font-size: 0.9rem;
+}
+
+
+
+  </style>
+</head>
+<body>
+  <!-- Animated background particles -->
+  <div class="particles" id="particles"></div>
+
+  <header class="header" id="header">
+    <div class="logo">SAFE NET</div>
+    
+    <nav class="nav">
+      <a href="improved_safenet.html">Início</a>
+      <a href="improved_golpes_page.html">Golpes</a>
+      <a href="noticias_melhorada.html">Notícias</a>
+      <a href="glossario.html">Glossário</a>
+      <a href="quiz.html">Quiz</a>
+        <a href="faleconosco.html">Fale conosco</a>
+         <a href="sobre_nois_improved.html">Sobre nós</a>
+    </nav>
+  </header>
+  
+  <main>
+    <h1>Sobre Nós</h1>
+    <p class="lead">
+      O Safe Net é um site criado durante a disciplina de Projeto Integrador do IFPI - Campus Pedro II, com o objetivo de ajudar as pessoas a se protegerem de golpes cibernéticos.
+
+Nossa missão é informar e conscientizar sobre os principais riscos na internet, oferecendo dicas simples e atualizadas para navegar com mais segurança.
+
+O projeto foi feito por nós, estudantes do 2° ano Informática, pensando em tornar o mundo digital um lugar mais seguro para todos.
+    </p>
+
+    <!-- ======= PERFIS ======= -->
+    <div class="team-list">
+      <div class="profile">
+        <div class="card">
+          <img src="layane.jpeg" alt="Layane Santos" />
+        </div>
+        <div class="info">
+          <h3>Layane Santos</h3>
+          <p>Scrum Master do projeto. Responsável por coordenar a equipe e garantir que todos os processos sigam as melhores práticas de desenvolvimento ágil.</p>
+        </div>
+      </div>
+
+      <div class="profile">
+        <div class="card">
+          <img src="mario.jpeg" alt="João Mário" />
+        </div>
+        <div class="info">
+          <h3>João Mário</h3>
+          <p>Desenvolvedor.</p>
+        </div>
+      </div>
+
+      <div class="profile">
+        <div class="card">
+          <img src="lucas.jpeg" alt="Lucas da Silva" />
+        </div>
+        <div class="info">
+          <h3>Lucas da Silva</h3>
+          <p>Desenvolvedor.</p>
+        </div>
+      </div>
+
+      <div class="profile">
+        <div class="card">
+          <img src="antonio.jpeg" alt="Antonio José" />
+        </div>
+        <div class="info">
+          <h3>Antonio José</h3>
+          <p>Desenvolvedor.</p>
+        </div>
+      </div>
+
+
+      <div class="profile">
+        <div class="card">
+          <img src="jardel.jpeg" alt="Jardel dos Santos" />
+        </div>
+        <div class="info">
+          <h3>Jardel dos Santos</h3>
+          <p>Desenvolvedor.</p>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    // Animated particles
+    function createParticles() {
+      const particlesContainer = document.getElementById('particles');
+      const particleCount = 50;
+      
+      for (let i = 0; i < particleCount; i++) {
+        const particle = document.createElement('div');
+        particle.className = 'particle';
+        particle.style.left = Math.random() * 100 + '%';
+        particle.style.top = Math.random() * 100 + '%';
+        particle.style.animationDelay = Math.random() * 6 + 's';
+        particle.style.animationDuration = (Math.random() * 4 + 4) + 's';
+        particlesContainer.appendChild(particle);
+      }
+    }
+
+    // Header scroll effect
+    window.addEventListener('scroll', () => {
+      const header = document.getElementById('header');
+      if (window.scrollY > 50) {
+        header.classList.add('scrolled');
+      } else {
+        header.classList.remove('scrolled');
+      }
+    });
+
+    // Smooth scrolling for navigation links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+          const headerHeight = document.querySelector('.header').offsetHeight;
+          const targetPosition = target.offsetTop - headerHeight;
+          window.scrollTo({
+            top: targetPosition,
+            behavior: 'smooth'
+          });
+        }
+      });
+    });
+
+    // Initialize particles
+    createParticles();
+
+    // Add hover effects to profile cards
+    document.querySelectorAll('.profile').forEach(profile => {
+      profile.addEventListener('mouseenter', () => {
+        profile.style.transform = 'translateY(-5px) scale(1.01)';
+      });
+      
+      profile.addEventListener('mouseleave', () => {
+        profile.style.transform = 'translateY(0) scale(1)';
+      });
+    });
+  </script>
+ <footer class="footer">
+  <div class="footer-content">
+    <nav class="footer-nav">
+      <a href="improved_safenet.html">Início</a>
+      <a href="improved_golpes_page.html">Golpes</a>
+      <a href="noticias_melhorada.html">Notícias</a>
+      <a href="glossario.html">Glossário</a>
+      <a href="quiz.html">Quiz</a>
+      <a href="faleconosco.html">Fale conosco</a>
+        <a href="sobre_nois_improved.html">Sobre nós</a>
+     
+    </nav>
+    <p class="footer-text">&copy; 2025 Safe Net - Todos os direitos reservados. Protegendo você no mundo digital.</p>
+  </div>
+</footer>
+
+
+
+</body>
+</html>

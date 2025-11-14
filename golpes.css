@@ -1,0 +1,190 @@
+body {
+  margin: 0;
+  font-family: 'Segoe UI', sans-serif;
+  background: linear-gradient(to right, #000000, #2E0854);
+  color: white;
+}
+
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+   padding: 10px 40px;
+   background-color: rgba(0, 0, 0, 0.3);
+   backdrop-filter: blur(10px);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+header h1 {
+  font-size: 1.5rem;
+}
+
+nav ul {
+  list-style: none;
+  display: flex;
+  gap: 1.5rem;
+}
+
+nav a {
+  color: white;
+  text-decoration: none;
+}
+
+nav a.active {
+  color: #ff6666;
+  font-weight: bold;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.logo img {
+  max-height: 90px; /* controla o tamanho da imagem */
+  width: auto; /* mantém proporção */
+}
+
+.logo span {
+  color: white; /* texto branco */
+  font-size: 32px; /* tamanho da fonte */
+  font-weight: bold;
+  font-family: Arial, sans-serif;
+}
+
+.hero {
+  padding: 3rem 2rem;
+   background: linear-gradient(to right, #000000, #2E0854);
+  text-align: center;
+  font-size: 2rem;
+  font-weight: bold;
+}
+
+main {
+  padding: 2rem;
+}
+
+/* Barra de pesquisa */
+.search-bar {
+  display: flex;
+  align-items: center;
+  margin-bottom: 2rem;
+  padding-left: 2rem;
+}
+
+.search-bar input {
+  width: 300px;
+  padding: 0.8rem 1rem;
+  font-size: 1rem;
+  border: none;
+  border-radius: 10px 0 0 10px;
+  background-color: #222;
+  color: white;
+  outline: none;
+}
+
+.btn-lupa {
+  padding: 0.8rem 1rem;
+  font-size: 1.2rem;
+  border: none;
+  border-radius: 0 10px 10px 0;
+  background-color: #000000;
+  color: white;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.btn-lupa:hover {
+  background-color: #333;
+}
+
+/* Bloco de golpe */
+.scam-block {
+  display: flex;
+  background-color: #1a1a1a;
+  border: 1px solid #333;
+  border-radius: 10px;
+  margin-bottom: 2rem;
+  padding: 1rem;
+  gap: 1.5rem;
+  align-items: flex-start;
+  flex-wrap: wrap;
+}
+
+.icon {
+  width: 70px;
+  height: 70px;
+  border-radius: 10px;
+  background-color: #444;
+  flex-shrink: 0;
+}
+
+/* Ícones específicos com imagens */
+.icon.whatsapp {
+  background: #c955ff url('zapzap.png') center/cover no-repeat;
+}
+
+.icon.bank {
+  background: #c955ff url('banco.png') center/cover no-repeat;
+}
+
+.icon.phone {
+  background: #c955ff url('telefone.png') center/cover no-repeat;
+}
+
+.icon.SMS {
+  background: #c955ff url('sms.webp') center/cover no-repeat;
+}
+
+.icon.support {
+  background: #c955ff url('suport.png') center/cover no-repeat;
+}
+
+.icon.sequestro{
+  background: #c955ff url('sequestro.png') center/cover no-repeat;
+}
+.icon.boleto{
+   background: #c955ff url('boleto.png') center/cover no-repeat;
+}
+.icon.instagram{
+ background: #c955ff  url('instagram.png') center/cover no-repeat
+}
+.icon.investimento{
+  background: #c955ff url('investimento.png') center/cover no-repeat
+
+}
+.icon.qrcode {
+  background: #c955ff url('qrcode-removebg-preview.png') center/cover no-repeat;
+}
+
+.icon.digitos {
+  background: #c955ff url('seisdigitos-removebg-preview.png') center/cover no-repeat;
+}
+
+.text {
+  flex: 1 1 300px;
+  min-width: 280px;
+}
+
+.video iframe {
+  border-radius: 10px;
+  max-width: 100%;
+  height: auto;
+}
+
+/* Outros tipos */
+.outros {
+  text-align: center;
+  margin-top: 3rem;
+}
+
+.outros-videos {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 2rem;
+  margin-top: 1rem;
+}

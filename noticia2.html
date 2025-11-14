@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ratinho cai em golpe</title>
+    <link rel="stylesheet" href="noticia2.css">
+</head>
+<body>
+
+<div class="particles" id="particles"></div>
+
+
+    <div class="container">
+        <div class="content">
+            <p class="data"> • 1 min de leitura</p>
+            <h1>Ratinho cai em golpe do Pix e perde R$ 50 mil</h1>
+            <h2>Nem os famosos estão livres dos golpes digitais!</h2>
+
+            <div class="texto-imagem">
+               <div class="texto">
+ 
+  
+  <p>O apresentador <strong>Ratinho</strong>, famoso na televisão brasileira, revelou que foi vítima de um <strong>golpe do Pix</strong> e acabou perdendo <strong>R$ 50 mil</strong>.</p>
+  
+  <p>Ele contou que recebeu uma mensagem que parecia ser de uma pessoa de sua confiança. Sem desconfiar, realizou a transferência via Pix para os golpistas, acreditando que estava ajudando alguém conhecido.</p>
+  
+  <p>O golpe utilizou uma técnica chamada <strong>engenharia social</strong>, onde os criminosos manipulam a vítima psicologicamente, se passando por familiares, amigos ou empresas para convencê-la a fazer pagamentos ou compartilhar dados.</p>
+  
+  <p>Mesmo sendo uma pessoa pública, Ratinho destacou que qualquer um pode ser enganado se não ficar atento. Ele compartilhou o ocorrido como um alerta para que outras pessoas não passem pela mesma situação.</p>
+  
+  <h3>Lição desse caso:</h3>
+  <ul>
+    <li>Sempre confirme a identidade de quem pede dinheiro, mesmo que pareça ser alguém conhecido.</li>
+    <li>Evite fazer transferências rápidas sem checar a veracidade da situação.</li>
+    <li>Desconfie de pedidos urgentes feitos por mensagens ou redes sociais.</li>
+  </ul>
+</div>
+
+                <div class="imagem">
+                    <img src="imagemratinho.webp" alt="Imagem do Ratinho">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Botão Voltar -->
+    <a href="noticias_melhorada.html" class="botao-voltar">⬅ Voltar</a>
+<a href="noticias_melhorada.html" class="botao-voltar">⬅ Voltar</a>
+<!-- Área de Comentários Minimalista -->
+<div class="comentarios">
+  <h3>Comentários</h3>
+  <div id="comentarios-container"></div>
+  <textarea id="novo-comentario" placeholder="Escreva um comentário..."></textarea>
+  <button class="botao-comentar" onclick="adicionarComentario()">Comentar</button>
+</div>
+
+<style>
+
+.particles {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 1;
+}
+
+.particle {
+    position: absolute;
+    width: 2px;
+    height: 2px;
+    background: rgba(255, 255, 255, 0.5);
+    border-radius: 50%;
+    animation: float 6s ease-in-out infinite;
+}
+
+@keyframes float {
+    0%, 100% {
+        transform: translateY(0px) rotate(0deg);
+        opacity: 1;
+    }
+    50% {
+        transform: translateY(-20px) rotate(180deg);
+        opacity: 0.5;
+    }
+}
+
+.titulo h2 {
+    font-size: clamp(2.5rem, 5vw, 4rem);
+    font-weight: 700;
+    background: linear-gradient(135deg, #ffffff 0%, #667eea 100%);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 20px;
+}
+
+
+.content h1 {
+      font-size: clamp(2.5rem, 5vw, 4rem);
+      font-weight: 700;
+      margin-bottom: 20px;
+      background: linear-gradient(135deg, #ffffff 0%, #667eea 100%);
+      background-clip: text;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      line-height: 1.2;
+    }
+
+
+.comentarios {
+  margin-top: 40px;
+  width: 100%;
+  max-width: 700px;
+  padding: 10px;
+  font-family: sans-serif;
+  border-top: 1px solid #ccc;
+}
+.comentarios h3 {
+  margin-left: 0;
+}
+.comentario {
+  padding: 10px 0;
+  border-bottom: 1px solid #eee;
+}
+.comentario p {
+  margin: 5px 0;
+}
+.comentario button {
+  margin-right: 10px;
+  background: none;
+  border: none;
+  color: #007bff;
+  cursor: pointer;
+}
+.comentario button:hover {
+  text-decoration: underline;
+}
+textarea {
+  width: 100%;
+  padding: 8px;
+  margin-top: 10px;
+  resize: vertical;
+  background: #000;
+  color: #fff;
+  border: 1px solid #444;
+}
+.resposta {
+  margin-left: 20px;
+  border-left: 2px solid #ddd;
+  padding-left: 10px;
+}
+.botao-comentar {
+  margin-top: 10px;
+  padding: 8px 16px;
+  background-color: #ac0101;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+.botao-comentar:hover {
+  background-color: #000000;
+}
+</style>
+
+<script>
+function adicionarComentario() {
+  const texto = document.getElementById("novo-comentario").value.trim();
+  if (!texto) return;
+
+  const container = document.getElementById("comentarios-container");
+  const div = criarComentario(texto);
+  container.appendChild(div);
+  document.getElementById("novo-comentario").value = "";
+}
+
+function criarComentario(texto) {
+  const div = document.createElement("div");
+  div.className = "comentario";
+  div.innerHTML = `
+    <p>${texto}</p>
+    <button onclick="curtirComentario(this)">👍 <span>0</span></button>
+    <button onclick="responderComentario(this)">Responder</button>
+    <div class="respostas"></div>
+  `;
+  return div;
+}
+
+function curtirComentario(botao) {
+  const span = botao.querySelector("span");
+  span.textContent = parseInt(span.textContent) + 1;
+}
+
+function responderComentario(botao) {
+  const container = botao.parentElement.querySelector(".respostas");
+  const area = document.createElement("div");
+  area.innerHTML = `
+    <textarea placeholder="Responder..."></textarea>
+    <button class="botao-comentar" onclick="enviarResposta(this)">Enviar</button>
+  `;
+  container.appendChild(area);
+}
+
+function enviarResposta(botao) {
+  const textarea = botao.previousElementSibling;
+  const texto = textarea.value.trim();
+  if (!texto) return;
+
+  const resposta = document.createElement("div");
+  resposta.className = "comentario resposta";
+  resposta.innerHTML = `
+    <p>${texto}</p>
+    <button onclick="curtirComentario(this)">👍 <span>0</span></button>
+  `;
+  botao.parentElement.parentElement.appendChild(resposta);
+  botao.parentElement.remove();
+}
+</script>
+
+<script>
+function createParticles() {
+    const particlesContainer = document.getElementById('particles');
+    const particleCount = 50; // pode mudar esse número
+
+    for (let i = 0; i < particleCount; i++) {
+        const particle = document.createElement('div');
+        particle.className = 'particle';
+        particle.style.left = Math.random() * 100 + '%';
+        particle.style.top = Math.random() * 100 + '%';
+        particle.style.animationDelay = Math.random() * 6 + 's';
+        particle.style.animationDuration = (Math.random() * 4 + 4) + 's';
+        particlesContainer.appendChild(particle);
+    }
+}
+
+createParticles();
+</script>
+
+
+</body>
+</html>

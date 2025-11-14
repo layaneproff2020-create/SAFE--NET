@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Fale Conosco | Safe Ent</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body {
+      font-family:'Inter',sans-serif;
+      background:linear-gradient(to right,#000000,#2E0854);
+      color:white;
+      min-height:100vh;
+      overflow-x:hidden;
+    }
+    .particles{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:1;}
+    .particle{position:absolute;width:2px;height:2px;background:rgba(255,255,255,0.5);border-radius:50%;animation:float 6s ease-in-out infinite;}
+    @keyframes float{0%,100%{transform:translateY(0);}50%{transform:translateY(-20px);opacity:0.5;}}
+    .header{position:fixed;top:0;left:0;right:0;display:flex;justify-content:space-between;align-items:center;padding:20px 40px;background:rgba(0,0,0,0.8);backdrop-filter:blur(20px);z-index:1000;}
+     .logo::before {
+      content: "🛡️";
+    }
+    .logo{font-size:1.8rem;font-weight:700;background:linear-gradient(135deg,#667eea,#764ba2);-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+    .nav{display:flex;gap:30px;}
+    .nav a{color:#dfe6e9;text-decoration:none;font-weight:500;padding:8px 16px;border-radius:8px;transition:0.3s;}
+    .nav a:hover,.nav a.active{color:white;background:rgba(255,255,255,0.1);}
+    .hero{text-align:center;padding:120px 20px 40px;position:relative;z-index:10;}
+    .hero h2{font-size:clamp(2.5rem,5vw,3.5rem);background:linear-gradient(135deg,#ffffff,#667eea);-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+    .hero p{color:#ccc;font-size:1.2rem;margin-top:10px;}
+    .form-container{
+      position:relative;z-index:10;max-width:600px;margin:40px auto;padding:40px;
+      background:rgba(255,255,255,0.08);backdrop-filter:blur(20px);
+      border:1px solid rgba(255,255,255,0.2);border-radius:20px;box-shadow:0 8px 32px rgba(0,0,0,0.1);
+    }
+    form{display:flex;flex-direction:column;gap:20px;}
+    input,select,textarea{
+      width:100%;padding:14px 18px;border:none;border-radius:10px;
+      background:rgba(255,255,255,0.1);color:white;font-size:1rem;outline:none;
+    }
+    input::placeholder,textarea::placeholder{color:#aaa;}
+    textarea{resize:none;height:120px;}
+    button{
+      background:linear-gradient(135deg,#f093fb,#f5576c);
+      border:none;padding:14px;font-size:1rem;color:white;border-radius:10px;cursor:pointer;transition:0.3s;
+    }
+    button:hover{background:linear-gradient(135deg,#667eea,#764ba2);transform:scale(1.05);}
+    .note{font-size:0.9rem;color:#bbb;margin-top:10px;text-align:center;}
+
+/* Footer - Safe Ent (copiado do improved_safenet.html) */
+.footer {
+  background: rgba(0, 0, 0, 0.9);
+  padding: 60px 20px 30px;
+  text-align: center;
+  border-top: 1px solid rgba(255,255,255,0.2); /* var(--glass-border) */
+  position: relative;
+  z-index: 10;
+}
+
+.footer-content {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.footer-nav {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  margin-bottom: 30px;
+  flex-wrap: wrap;
+}
+
+.footer-nav a {
+  color: #e0e6ed; /* var(--text-secondary) */
+  text-decoration: none;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  padding: 5px 10px;
+  border-radius: 5px;
+}
+
+.footer-nav a:hover {
+  color: #ffffff; /* var(--text-primary) */
+  background: rgba(255,255,255,0.08); /* var(--glass-bg) */
+}
+
+.footer-text {
+  color: #b2bec3; /* var(--text-muted) */
+  font-size: 0.9rem;
+}
+
+
+
+  </style>
+</head>
+<body>
+  <div class="particles" id="particles"></div>
+
+  <header class="header">
+    <div class="logo">SAFE NET</div>
+    <nav class="nav">
+      <a href="improved_safenet.html">Início</a>
+      <a href="improved_golpes_page.html">Golpes</a>
+      <a href="noticias_melhorada.html">Notícias</a>
+      <a href="glossario.html">Glossário</a>
+        <a href="quiz.html">Quiz</a>
+      <a class="active" href="#">Fale Conosco</a>
+        <a href="sobre_nois_improved.html">Sobre nós</a>
+    </nav>
+  </header>
+
+  <section class="hero">
+    <h2>Fale Conosco</h2>
+    <p>Tem dúvidas, sugestões ou quer relatar um golpe? Envie sua mensagem abaixo.</p>
+  </section>
+
+  <!-- FORMULÁRIO FUNCIONAL PELO FORMSUBMIT -->
+  <div class="form-container">
+    <form action="" method="POST">
+      <!-- Campos do formulário -->
+      <input type="text" name="nome" placeholder="Seu nome (opcional)">
+      <input type="email" name="email" placeholder="Seu e-mail" required>
+      <select name="assunto" required>
+        <option value="">Selecione o assunto</option>
+        <option value="duvida">Dúvida</option>
+        <option value="sugestao">Sugestão</option>
+        <option value="relato">Relatar golpe</option>
+      </select>
+      <textarea name="mensagem" placeholder="Digite sua mensagem..." required></textarea>
+      <button type="submit"><a href="obrigado.html" style="color: white; text-decoration: none;">Enviar mensagem</a></button>
+
+      <!-- Campos ocultos para personalização -->
+      <input type="hidden" name="_next" value="obrigado.html">
+      <input type="hidden" name="_captcha" value="false">
+    </form>
+    <p class="note">⚠️ Nunca envie senhas ou dados pessoais neste formulário.</p>
+  </div>
+
+  <script>
+    // Partículas animadas
+    function createParticles(){
+      const container=document.getElementById('particles');
+      for(let i=0;i<50;i++){
+        const p=document.createElement('div');
+        p.className='particle';
+        p.style.left=Math.random()*100+'%';
+        p.style.top=Math.random()*100+'%';
+        p.style.animationDelay=Math.random()*6+'s';
+        p.style.animationDuration=(Math.random()*4+4)+'s';
+        container.appendChild(p);
+      }
+    }
+    createParticles();
+  </script>
+
+ <footer class="footer">
+  <div class="footer-content">
+    <nav class="footer-nav">
+      <a href="improved_safenet.html">Início</a>
+      <a href="improved_golpes_page.html">Golpes</a>
+      <a href="noticias_melhorada.html">Notícias</a>
+      <a href="glossario.html">Glossário</a>
+      <a href="quiz.html">Quiz</a>
+      <a href="faleconosco.html">Fale conosco</a>
+       <a href="sobre_nois_improved.html">Sobre nós</a>
+     
+    </nav>
+    <p class="footer-text">&copy; 2025 Safe Net - Todos os direitos reservados. Protegendo você no mundo digital.</p>
+  </div>
+</footer>
+
+
+</body>
+</html>

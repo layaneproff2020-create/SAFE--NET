@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notícias - Safe Net</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --secondary-gradient: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            --danger-gradient: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%);
+            --dark-gradient: linear-gradient(135deg, #2c3e50 0%, #3498db 100%);
+            --glass-bg: rgba(255, 255, 255, 0.1);
+            --glass-border: rgba(255, 255, 255, 0.2);
+            --text-primary: #ffffff;
+            --text-secondary: #e0e6ed;
+            --text-muted: #b2bec3;
+            --shadow-light: 0 8px 32px rgba(0, 0, 0, 0.1);
+            --shadow-heavy: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(to right, #000000, #2E0854);
+            color: var(--text-primary);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* Animated particles background */
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .particle {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: rgba(255, 255, 255, 0.5);
+            border-radius: 50%;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); opacity: 1; }
+            50% { transform: translateY(-20px) rotate(180deg); opacity: 0.5; }
+        }
+
+        /* Header */
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 40px;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--glass-border);
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+
+        .header.scrolled {
+            padding: 15px 40px;
+            background: rgba(0, 0, 0, 0.9);
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            background: var(--primary-gradient);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo::before {
+            content: '🛡️';
+            font-size: 1.5rem;
+        }
+
+        .nav {
+            display: flex;
+            gap: 30px;
+        }
+
+        .nav a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-weight: 500;
+            position: relative;
+            transition: all 0.3s ease;
+            padding: 8px 16px;
+            border-radius: 8px;
+        }
+
+        .nav a:hover, .nav a.ativo {
+            color: var(--text-primary);
+            background: var(--glass-bg);
+            transform: translateY(-2px);
+        }
+
+        .nav a::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 50%;
+            width: 0;
+            height: 2px;
+            background: var(--primary-gradient);
+            transition: all 0.3s ease;
+            transform: translateX(-50%);
+        }
+
+        .nav a:hover::after, .nav a.ativo::after {
+            width: 100%;
+        }
+
+        /* Title Section */
+        .titulo {
+            padding: 140px 20px 60px;
+            text-align: center;
+            position: relative;
+            z-index: 10;
+        }
+
+        .titulo h2 {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 700;
+            background: linear-gradient(135deg, #ffffff 0%, #667eea 100%);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 20px;
+        }
+
+        .titulo::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            width: 100px;
+            height: 3px;
+            background: var(--primary-gradient);
+            transform: translateX(-50%);
+            border-radius: 2px;
+        }
+
+        /* Container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            position: relative;
+            z-index: 10;
+        }
+
+        /* Cards */
+        .card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 25px;
+            margin-bottom: 30px;
+            box-shadow: var(--shadow-light);
+            transition: all 0.3s ease;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--secondary-gradient);
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: var(--shadow-heavy);
+            border-color: rgba(255, 255, 255, 0.3);
+        }
+
+        .card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .card iframe {
+            width: 100%;
+            height: 200px;
+            border-radius: 15px;
+            margin-bottom: 20px;
+            border: none;
+        }
+
+        .info {
+            padding: 0 10px;
+        }
+
+        .data {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            margin-bottom: 10px;
+            display: inline-block;
+            padding: 4px 12px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+        }
+
+        .info h3 {
+            font-size: 1.4rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+            line-height: 1.3;
+        }
+
+        .ancora {
+            color: var(--text-primary);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            background: linear-gradient(135deg, #ffffff 0%, #667eea 100%);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .ancora:hover {
+            background: var(--secondary-gradient);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .info p {
+            color: var(--text-secondary);
+            line-height: 1.6;
+            font-size: 1rem;
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .fade-in {
+            animation: fadeInUp 0.8s ease-out;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header {
+                padding: 15px 20px;
+            }
+
+            .nav {
+                gap: 20px;
+            }
+
+            .nav a {
+                padding: 6px 12px;
+                font-size: 0.9rem;
+            }
+
+            .titulo {
+                padding: 120px 20px 40px;
+            }
+
+            .container {
+                padding: 20px 15px;
+            }
+
+            .card {
+                padding: 20px;
+                margin-bottom: 25px;
+            }
+
+            .card iframe {
+                height: 180px;
+            }
+
+            .info h3 {
+                font-size: 1.2rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .logo {
+                font-size: 1.5rem;
+            }
+
+            .nav {
+                gap: 15px;
+            }
+
+            .nav a {
+                padding: 5px 10px;
+                font-size: 0.8rem;
+            }
+
+            .card iframe {
+                height: 150px;
+            }
+        }
+
+/* Footer - Safe Ent (copiado do improved_safenet.html) */
+.footer {
+  background: rgba(0, 0, 0, 0.9);
+  padding: 60px 20px 30px;
+  text-align: center;
+  border-top: 1px solid rgba(255,255,255,0.2); /* var(--glass-border) */
+  position: relative;
+  z-index: 10;
+}
+
+.footer-content {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.footer-nav {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  margin-bottom: 30px;
+  flex-wrap: wrap;
+}
+
+.footer-nav a {
+  color: #e0e6ed; /* var(--text-secondary) */
+  text-decoration: none;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  padding: 5px 10px;
+  border-radius: 5px;
+}
+
+.footer-nav a:hover {
+  color: #ffffff; /* var(--text-primary) */
+  background: rgba(255,255,255,0.08); /* var(--glass-bg) */
+}
+
+.footer-text {
+  color: #b2bec3; /* var(--text-muted) */
+  font-size: 0.9rem;
+}
+
+
+
+    </style>
+</head>
+<body>
+    <!-- Animated background particles -->
+    <div class="particles" id="particles"></div>
+
+    <!-- Header -->
+    <header class="header" id="header">
+        <div class="logo">SAFE NET</div>
+        <nav class="nav">
+            <a href="improved_safenet.html">Início</a>
+            <a href="improved_golpes_page.html">Golpes</a>
+            <a href="noticias_melhorada.html" class="ativo">Notícias</a>
+            <a href="glossario.html">Glossário</a>
+            <a href="quiz.html">Quiz</a>
+            <a href="faleconosco.html">Fale conosco</a>
+            <a href="sobre_nois_improved.html">Sobre nós</a>
+        </nav>
+    </header>
+
+    <!-- Title -->
+    <section class="titulo">
+        <h2>Notícias</h2>
+    </section>
+
+    <!-- News Container -->
+    <main class="container">
+        <div class="card">
+            <iframe src="https://www.youtube.com/embed/WIPUOKdTCw8" title="Criminosos usam vozes de Ratinho e Portiolli para aplicar golpes" allowfullscreen></iframe>
+            <div class="info">
+                <p class="data">3 de dez. de 2024</p>
+                <h3><a href="noticia1.html" class="ancora">Manipulação de voz e imagem</a></h3>
+                <p>Criminosos manipulam vozes e imagens de famosos para aplicar golpes nas redes sociais. Saiba como identificar e se proteger desses ataques sofisticados.</p>
+            </div>
+        </div>
+
+        <div class="card">
+            <iframe src="https://www.youtube.com/embed/d52UDtHcPoY" title="Ratinho cai no golpe do PIX e perde R$50 mil" allowfullscreen></iframe>
+            <div class="info">
+                <p class="data">1 de out. de 2024</p>
+                <h3><a href="noticia2.html" class="ancora">Ratinho cai em golpe do pix e perde 50 mil</a></h3>
+                <p>Nem os famosos escapam! O apresentador Ratinho perdeu R$ 50 mil em um golpe do Pix. Saiba como isso aconteceu e como se proteger.</p>
+            </div>
+        </div>
+
+        <div class="card">
+            <iframe src="https://www.youtube.com/embed/4K2IhekxjJk" title="Pix: BC obriga bancos criarem alerta de golpe a partir de 2025" allowfullscreen></iframe>
+            <div class="info">
+                <p class="data">20 de set. de 2024</p>
+                <h3><a href="noticia3.html" class="ancora">BC obriga bancos a criarem alerta de golpes</a></h3>
+                <p>O Banco Central exige que bancos alertem clientes antes de Pix suspeitos. Uma medida para proteger você de golpes!</p>
+            </div>
+        </div>
+
+        <div class="card">
+            <iframe src="https://www.youtube.com/embed/vDVi_1rBA54" title="Vítima do golpe do amor, brasileiro cai na mira da PF" allowfullscreen></iframe>
+            <div class="info">
+                <p class="data">15 de abr. de 2025</p>
+                <h3><a href="noticia4.html" class="ancora">Vítima do golpe do amor</a></h3>
+                <p>Vítima acreditou em um relacionamento online e foi enganada por criminosos. Cuidado com pedidos de dinheiro na internet!</p>
+            </div>
+        </div>
+
+        <div class="card">
+            <iframe src="https://www.youtube.com/embed/Ih_TJv0Lhjs" title="Golpista arrependido surpreende vítima ao devolver dinheiro roubado" allowfullscreen></iframe>
+            <div class="info">
+                <p class="data">19 de dez. de 2024</p>
+                <h3>Golpista devolve dinheiro!</h3>
+                <p>Um caso raro: após aplicar um golpe, o criminoso se arrependeu e devolveu parte do dinheiro roubado. Mas nem sempre isso acontece!</p>
+            </div>
+        </div>
+
+   <div class="card">
+          <iframe width="853" height="480" src="https://www.youtube.com/embed/kPfbkjtX1ws" title="Falso advogado: criminosos roubam dados de processos para aplicar golpes online" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+            <div class="info">
+                <p class="data">25 de mai. de 2025</p>
+                <h3><a href="noticia6.html" class="ancora">Golpe do Falso Advogado: criminosos se passam por advogados para enganar vítimas</a></h3>
+                <p>Criminosos se passam por advogados e usam dados de processos judiciais para enganar vítimas. Eles cobram falsas taxas ou prometem acelerar procedimentos legais, causando prejuízos financeiros.</p>
+            </div>
+        </div>
+
+          <div class="card">
+         <iframe width="853" height="480" src="https://www.youtube.com/embed/bd9NHky-8Pk" title="Golpes pela Internet - 20/01/2025 #ParticipaçãoPopular" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+            <div class="info">
+                <p class="data">20 de jan. de 2025</p>
+                <h3><a href="noticia7.html" class="ancora">Golpes pela Internet</a></h3>
+                <p>Programa alerta para os principais golpes virtuais que estão fazendo vítimas no Brasil. Casos reais mostram como os criminosos agem e dão dicas de como se proteger.</p>
+            </div>
+        </div>
+
+        <div class="card">
+        <iframe width="853" height="480" src="https://www.youtube.com/embed/wGKhewXUrgg" title="Golpe: idosa quase cai em armadilha ao pensar que ajudava a filha | #SBTNews Manhã (24/0/25)" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+            <div class="info">
+                <p class="data">24 de abr. de 2025</p>
+                <h3><a href="noticia8.html" class="ancora">Idosa quase cai em golpe ao ajudar suposta filha</a></h3>
+                <p>Golpistas fingem ser parentes e usam informações pessoais para enganar vítimas, exigindo depósitos para "ajudar." Veja o alerta de uma idosa que quase foi vítima.</p>
+            </div>
+        </div>
+
+
+
+
+
+    </main>
+
+    <script>
+        // Animated particles
+        function createParticles() {
+            const particlesContainer = document.getElementById('particles');
+            const particleCount = 50;
+            
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.top = Math.random() * 100 + '%';
+                particle.style.animationDelay = Math.random() * 6 + 's';
+                particle.style.animationDuration = (Math.random() * 4 + 4) + 's';
+                particlesContainer.appendChild(particle);
+            }
+        }
+
+        // Header scroll effect
+        window.addEventListener('scroll', () => {
+            const header = document.getElementById('header');
+            if (window.scrollY > 50) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        });
+
+        // Intersection Observer for fade-in animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('fade-in');
+                }
+            });
+        }, observerOptions);
+
+        // Observe all cards
+        document.querySelectorAll('.card').forEach(card => {
+            observer.observe(card);
+        });
+
+        // Initialize particles
+        createParticles();
+
+        // Add hover effects to cards
+        document.querySelectorAll('.card').forEach(card => {
+            card.addEventListener('mouseenter', () => {
+                card.style.transform = 'translateY(-10px) scale(1.02)';
+            });
+            
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = 'translateY(0) scale(1)';
+            });
+        });
+    </script>
+
+     <footer class="footer">
+  <div class="footer-content">
+    <nav class="footer-nav">
+      <a href="improved_safenet.html">Início</a>
+      <a href="improved_golpes_page.html">Golpes</a>
+      <a href="noticias_melhorada.html">Notícias</a>
+      <a href="glossario.html">Glossário</a>
+      <a href="quiz.html">Quiz</a>
+      <a href="faleconosco.html">Fale conosco</a>
+      <a href="sobre_nois_improved.html">Sobre nós</a>
+     
+    </nav>
+    <p class="footer-text">&copy; 2025 Safe Net - Todos os direitos reservados. Protegendo você no mundo digital.</p>
+  </div>
+</footer>
+</body>
+</html>
